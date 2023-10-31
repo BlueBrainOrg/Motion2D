@@ -17,10 +17,6 @@ Whether top-down, platformer or grid-based, this component offers the functional
 config/features=PackedStringArray("4.1", "GL Compatibility")
 config/icon="res://icon.svg"
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/motion2d/plugin.cfg")
-
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

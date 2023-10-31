@@ -118,6 +118,9 @@ Este plugin ha sido escrito también en CSharp y puedes encontrarlo en [Motion2D
 
 Esta es la clase de donde se extienden todos los nodos *(excepto el movimiento de grid)* y tiene acceso a todas sus variables y funciones.
 
+Para usar los componentes, buscalos en el editor al añadir un nuevo nodo a la escena:
+![paradise-motion-nodes](https://github.com/GodotParadise/Motion2D/blob/main/images/paradise_motion_childs.png)
+
 ## Parámetros exportados
 Estos parámetros pueden modificarse para lograr distintos comportamientos. A continuación, explicamos el propósito de cada parámetro y su impacto en el componente
 

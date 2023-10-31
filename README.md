@@ -116,6 +116,9 @@ This plugin has also been written in C# and you can find it on [Motion2D-CSharp]
 
 This is the class where all the nodes extends from *(except the grid movement)* and you have access to all this variables and functions.
 
+To use the components just add as childs in the scene looking for paradise in the editor:
+![paradise-motion-nodes](https://github.com/GodotParadise/Motion2D/blob/main/images/paradise_motion_childs.png)
+
 ## Exported parameters
 These parameters can be modified to achieve different behaviors. Below, we explain the purpose of each parameter and its impact on the component
 
