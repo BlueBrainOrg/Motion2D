@@ -80,6 +80,18 @@ Whether top-down, platformer or grid-based, this component offers the functional
 		- [wall\_climb(direction: Vector2)](#wall_climbdirection-vector2)
 		- [reset\_jump\_queue()](#reset_jump_queue)
 	- [Signals](#signals-1)
+- [🏁Grid Movement](#grid-movement)
+	- [Getting Started](#getting-started-1)
+	- [Once upon the scene tree](#once-upon-the-scene-tree)
+	- [Exported parameters](#exported-parameters-2)
+	- [Accessible normal parameters](#accessible-normal-parameters)
+	- [Functions](#functions-2)
+		- [move(direction: Vector2, valid\_position\_callback: Callable = \_default\_valid\_position\_callback)](#movedirection-vector2-valid_position_callback-callable--_default_valid_position_callback)
+		- [follow\_path(moves: Array\[Vector2\], valid\_position\_callback: Callable = \_default\_valid\_position\_callback)](#follow_pathmoves-arrayvector2-valid_position_callback-callable--_default_valid_position_callback)
+		- [teleport\_to(target\_position: Vector2, valid\_position\_callback: Callable = \_default\_valid\_position\_callback)](#teleport_totarget_position-vector2-valid_position_callback-callable--_default_valid_position_callback)
+		- [snap\_body\_position(body: CharacterBody2D)](#snap_body_positionbody-characterbody2d)
+		- [snap\_position(position: Vector2) -\> Vector2](#snap_positionposition-vector2---vector2)
+	- [Signals](#signals-2)
 - [✌️You are welcome to](#️you-are-welcome-to)
 - [🤝Contribution guidelines](#contribution-guidelines)
 - [📇Contact us](#contact-us)
@@ -475,6 +487,78 @@ This function is primarily used internally but can be manually called to initiat
 - *wall_slide_finished* 
 - *wall_climb_started* 
 - *wall_climb_finished*
+
+# 🏁Grid Movement
+Moving in a grid has never been easier; use this component to access this functionality.
+
+## Getting Started
+This component does not inherit from [GodotParadiseMotion][#godot-paradise-motion], so it does not have access to this functionality. Grid movement requires its own dedicated logic.
+⚠️This component can only be used on CharacterBody2D node.
+
+## Once upon the scene tree
+When this node enter the scene tree happens multiple things:
+- Snap the body position to align with the `TILE_SIZE` and prevent it from remaining in an invalid position.
+- Connects to `moved` signal
+- Connects to `flushed_recorded_grid_movements` signal
+
+When the `move()` function is executed and emits the moved signal, the component performs the following calculations:
+
+1. Records the movement in the `recorded_grid_movements` array if the maximum recorded grid movements value has not been exceeded.
+2. Increments the `movements_count` by 1.
+3. Emits the `movements_completed` signal when `movements_count` exceeds the `emit_signal_every_n_movements` value. The `movements_count` is then reset to zero.
+4. If the `recorded_grid_movements` array exceeds the `max_recorded_grid_movement` value, this array is cleared, and the `flushed_recorded_grid_movements` signal is emitted.
+
+## Exported parameters
+- Tile size
+- Max recorded grid movements
+- Emit signal every 'n' movements
+
+The **Tile size** this grid based movement, we recommend to be multiples of 2 but nothing happens if you used another tile size dimensions.
+
+The **Max recorded grid movements** is the number of grid movements recorded before deletion *(set to 0 to keep them indefinitely)*
+
+The **emit signal every n movements** is the number of movements to be performed before emitting a signal notification. The signal emitted is `movements_completed`
+
+## Accessible normal parameters
+- body: CharacterBody2D
+- recorded_grid_movements: Array[Vector2]
+- movements_count: int
+
+## Functions
+The `_default_valid_position_callback` is an internal function that always return true and keep the execution of movement when no custom function is passed as callback.
+
+### move(direction: Vector2, valid_position_callback: Callable = _default_valid_position_callback)
+The fundamental function that moves the character within a grid. It accepts a `direction` and a `callback` function, which can be used to implement custom functionality for detecting valid grid positions, among other things.
+
+- If the callback returns true the movement is done and emit the signal `moved`
+- If the callback returns false the movement is not done and emit the signal `move_not_valid`
+  
+### follow_path(moves: Array[Vector2], valid_position_callback: Callable = _default_valid_position_callback)
+Executes a series of sequential moves, utilizing the `move()` function internally.
+
+### teleport_to(target_position: Vector2, valid_position_callback: Callable = _default_valid_position_callback)
+Moves instantly to the target position. The `_default_valid_position_callback` always return true
+
+### snap_body_position(body: CharacterBody2D)
+Snap the character to align with a nearby valid vector that maintains consistency with the tile size.
+
+### snap_position(position: Vector2) -> Vector2
+Similar to the previous description, but using the parameter of a specific position.
+
+## Signals
+The result parameter is defined on the next structure:
+```py
+result := {
+	"from": original_position, 
+	"to": next_position, 
+	"direction": direction
+}
+	
+```
+- *moved(result: Dictionary)* 
+- *move_not_valid(result: Dictionary)*
+- *flushed_recorded_grid_movements(recorded_movements: Array[Dictionary])*
+- *movements_completed(movements: Array[Dictionary])*
 
 # ✌️You are welcome to
 - [Give feedback](https://github.com/GodotParadise/Motion2D/pulls)
