@@ -26,8 +26,8 @@ Whether top-down, platformer or grid-based, this component offers the functional
 - [🏃🏾GodotParadiseMotion](#godotparadisemotion)
 	- [Exported parameters](#exported-parameters)
 		- [Speed](#speed)
-	- [Modifiers](#modifiers)
-	- [Dash](#dash)
+		- [Modifiers](#modifiers)
+		- [Dash](#dash)
 	- [Optional Signals](#optional-signals)
 	- [Accessible normal variables](#accessible-normal-variables)
 	- [Upon entered the scene tree:](#upon-entered-the-scene-tree)
@@ -132,13 +132,13 @@ The **friction** brakes the node smoothly to give a sliding effect when changing
 
 The **air friction** factor simulates friction for the character when in the air. This friction needs to be manually applied since it's not directly used within the component. It provides additional functionality to simulate air friction when necessary. The values of this factor apply horizontally to `velocity.x` and vertically to `velocity.y`
 
-## Modifiers
+### Modifiers
 This exported group is saved for the various modifiers that may be temporarily applied to the existing parameters
 - Default temporary speed time
 - 
 The **Default temporary speed time** In seconds, the amount of time a speed modification will endure. This value is being used on the function `change_speed_temporary()`
 
-## Dash
+### Dash
 - Dash speed multiplier
 - Times can dash
 - Dash Cooldown
@@ -250,6 +250,7 @@ A top-down game does not need gravity so it is usually easier to implement. Here
 
 ## Getting Started
 At the moment this component is inherited from [GodotParadiseMotion](#godotparadisemotion) so it has the same functionality as it.
+
 ⚠️This component can only be used on CharacterBody2D node.
 
 *Top-down games do not require extra functionality as they are not as complex in terms of movement compared to platform games, this page will be extended as soon as we identify any functionality specific to this game format.*
@@ -260,6 +261,7 @@ Platformer games are a convergence of numerous mechanics, making them an excelle
 Getting started
 This component is inherited from [GodotParadiseMotion](#godotparadisemotion) so it has the same functionality as it.
 In this illustration, we aim to comprehensively unravel the mechanics inherent in a platformer. The `GodotParadisePlatfomerMovement` simplifies these intricacies, allowing us to center our focus on the fundamental concepts of our game.
+
 ⚠️This component can only be used on CharacterBody2D node
 
 ## Exported parameters
@@ -493,6 +495,7 @@ Moving in a grid has never been easier; use this component to access this functi
 
 ## Getting Started
 This component does not inherit from [GodotParadiseMotion][#godot-paradise-motion], so it does not have access to this functionality. Grid movement requires its own dedicated logic.
+
 ⚠️This component can only be used on CharacterBody2D node.
 
 ## Once upon the scene tree
