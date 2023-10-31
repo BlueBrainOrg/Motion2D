@@ -28,7 +28,7 @@ Whether top-down, platformer or grid-based, this component offers the functional
 		- [Speed](#speed)
 		- [Modifiers](#modifiers)
 		- [Dash](#dash)
-	- [Optional Signals](#optional-signals)
+		- [Optional Signals](#optional-signals)
 	- [Accessible normal variables](#accessible-normal-variables)
 	- [Upon entered the scene tree:](#upon-entered-the-scene-tree)
 	- [Chaining methods](#chaining-methods)
@@ -39,7 +39,7 @@ Whether top-down, platformer or grid-based, this component offers the functional
 		- [decelerate(delta: float = get\_physics\_process\_delta\_time(), force\_stop: bool = false)](#deceleratedelta-float--get_physics_process_delta_time-force_stop-bool--false)
 		- [accelerate\_to\_position(position: Vector2)](#accelerate_to_positionposition-vector2)
 		- [apply\_air\_friction\_horizontal(friction\_factor: float = AIR\_FRICTION\_HORIZONTAL\_FACTOR)](#apply_air_friction_horizontalfriction_factor-float--air_friction_horizontal_factor)
-		- [apply\_air\_friction\_vertical(friction\_factor: float = AIR\_FRICTION\_HORIZONTAL\_FACTOR)](#apply_air_friction_verticalfriction_factor-float--air_friction_horizontal_factor)
+		- [apply\_air\_friction\_vertical(friction\_factor: float = AIR\_FRICTION\_VERTICAL\_FACTOR)](#apply_air_friction_verticalfriction_factor-float--air_friction_vertical_factor)
 		- [knockback(direction: Vector2, power: float)](#knockbackdirection-vector2-power-float)
 		- [teleport\_to\_position(position: Vector2, valid\_position\_callback: Callable = \_default\_valid\_position\_callback)](#teleport_to_positionposition-vector2-valid_position_callback-callable--_default_valid_position_callback)
 		- [change\_speed\_temporary(new\_speed: float, time: float = DEFAULT\_TEMPORARY\_SPEED\_TIME)](#change_speed_temporarynew_speed-float-time-float--default_temporary_speed_time)
@@ -135,7 +135,7 @@ The **air friction** factor simulates friction for the character when in the air
 ### Modifiers
 This exported group is saved for the various modifiers that may be temporarily applied to the existing parameters
 - Default temporary speed time
-- 
+
 The **Default temporary speed time** In seconds, the amount of time a speed modification will endure. This value is being used on the function `change_speed_temporary()`
 
 ### Dash
@@ -155,7 +155,7 @@ The **dash duration** turn off the gravity the amount in seconds defined to avoi
 
 The **can dash while dashing** parameter determines whether the character can initiate another dash while already in the dashing state. It is enabled by default. When this parameter is set to false, the character must wait for the first dash to finish before performing a second one.
 
-## Optional Signals
+### Optional Signals
 This group collect the signals that can affect the performance because of the number of times they can be executed in context. From here, you can enable or disable them:
 - Max speed reached signal
 - Stopped signal
@@ -163,7 +163,7 @@ This group collect the signals that can affect the performance because of the nu
   
 ## Accessible normal variables
 - body: CharacterBody2D
-- original_max_speed: float *(This value is used to return to MAX_SPEED after a modifier has been applied)*
+- original_max_speed: float *(This value is used to return to MAX_SPEED after a modifier has been applied and this ends)*
 - velocity: Vector2
 - facing_direction: Vector2
 - last_faced_direction: Vector2
@@ -207,7 +207,7 @@ Accelerate to position defined as parameter, uses `accelerate()` function intern
 ### apply_air_friction_horizontal(friction_factor: float = AIR_FRICTION_HORIZONTAL_FACTOR)
 Apply horizontal air friction to the `velocity.x` when this value is greater than zero. The character does not need to return `is_on_floor()` and `is_on_wall()` to true.
 
-### apply_air_friction_vertical(friction_factor: float = AIR_FRICTION_HORIZONTAL_FACTOR)
+### apply_air_friction_vertical(friction_factor: float = AIR_FRICTION_VERTICAL_FACTOR)
 Apply vertical air friction to the `velocity.y` when this value is greater than zero. The character does not need to return `is_on_floor()` and `is_on_wall()` to true
 
 ### knockback(direction: Vector2, power: float)
@@ -351,7 +351,7 @@ The **maximum permisible wall angle** defines the the angle of inclination that 
 
 The **wall slide** enabled allows the node to slide when on a wall according to the value applied on wall slide gravity until it reaches the floor. 
 
-When Override gravity on wall slide is true, overrides the fall gravity and apply instead the `wall_slide_gravity_value`.
+When `override gravity on wall slide` is true, overrides the fall gravity and apply instead the `wall_slide_gravity_value`.
 
 In this state the node is able to do a wall jump so it can come in handy to allow the player to calculate distances or to glide to a certain point and jump.
 
@@ -415,7 +415,7 @@ Returns the current gravity force being applied, which is either `jump_gravity` 
 If `gravity_enabled` is set to true, this function applies the value obtained from the `get_gravity()` function to `velocity.y`. It also considers whether gravity is inverted and retrieves the `fall_gravity` value while taking into account the maximum fall velocity.
 
 ### invert_gravity()
-Inverts gravity based on the current value of gravity_enabled, switching it to the opposite state. This call emits the signal `inverted_gravity(inverted: bool)`
+Inverts gravity based on the current value of `gravity_enabled`, switching it to the opposite state. This call emits the signal `inverted_gravity(inverted: bool)`
 
 ### suspend_gravity_for_duration(duration: float)
 Disables gravity for the specified duration in seconds and re-enables it when the timeout is reached.
