@@ -159,6 +159,7 @@ func _ready():
 	_create_suspend_gravity_timer()
 	_create_coyote_timer()
 	_create_wall_climbing_timer()
+	_create_temporary_gravity_timer()
 	
 	jumped.connect(on_jumped)
 	wall_jumped.connect(on_wall_jumped)
