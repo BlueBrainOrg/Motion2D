@@ -136,7 +136,7 @@ La **acceleration** hace más suave alcanzar la velocidad máxima si quieres aum
 
 La **friction** frena el nodo suavemente para dar un efecto de deslizamiento al cambiar de dirección o terminar el movimiento. En caso de que no lo desees, simplemente asígnale un valor cero y el nodo no desacelerará usando la fricción.
 
-El factor **air friction** simula la fricción del personaje cuando está en el aire. Esta fricción necesita ser aplicada manualmente ya que no se usa directamente dentro del componente. Proporciona una funcionalidad adicional para simular la fricción del aire cuando sea necesario. Los valores de este factor se aplican horizontalmente a `velocidad.x` y verticalmente a `velocidad.y`.
+El factor **air friction** simula la fricción del personaje cuando está en el aire. Esta fricción necesita ser aplicada manualmente ya que no se usa directamente dentro del componente. Proporciona una funcionalidad adicional para simular la fricción del aire cuando sea necesario. Los valores de este factor se aplican horizontalmente a `velocity.x` y verticalmente a `velocity.y`.
 
 ### Modificadores
 Este grupo exportado se guarda para los distintos modificadores que pueden aplicarse temporalmente a los parámetros existentes
@@ -323,7 +323,7 @@ Cada vez que se cambia uno de estos valores, se realiza un recálculo de los sig
 - ***Coyote jump enabled***
 - ***Coyote jump time window***
 
-El **jump threshold** define un umbral de posición específico que gobierna si el nodo es elegible para realizar un salto. Esto ocurre **durante el descenso a medida que aumenta la velocidad.y.** Cuando casi se alcanza el valor predefinido y queda capacidad de salto, se puede realizar esta acción.
+El **jump threshold** define un umbral de posición específico que gobierna si el nodo es elegible para realizar un salto. Esto ocurre **durante el descenso a medida que aumenta la velocity.y.** Cuando casi se alcanza el valor predefinido y queda capacidad de salto, se puede realizar esta acción.
 
 Los **allowed jumps** definen el número de saltos que puede realizar el nodo, ideal para implementar saltos dobles o triples.
 
@@ -432,7 +432,7 @@ Esta función devuelve un valor booleano que indica si la `position.y` del perso
 ### is_falling() -> bool
 Devuelve si, con los valores actuales de los componentes, el nodo está cayendo. Realiza las siguientes comprobaciones:
 - El personaje no está en el suelo
-- La velocidad.y es mayor que cero *(velocidad.y menor que cero cuando la gravedad está invertida)*
+- La velocity.y es mayor que cero *(velocity.y menor que cero cuando la gravedad está invertida)*
 - La gravedad está activada
 
 ### can_jump() -> bool
