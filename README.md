@@ -229,7 +229,7 @@ When the timer reaches the timeout, a `temporary_speed_finished` signal is emitt
 Returns a boolean value confirming whether dashes are available
 
 ### can_dash(direction: Vector2 = Vector2.ZERO)
-Returns a boolean value confirming if the character can dahs to the direction provided as parameter.
+Returns a boolean value confirming if the character can dash to the direction provided as parameter.
 
 ### dash(target_direction: Vector2 = facing_direction, speed_multiplier: float = DASH_SPEED_MULTIPLIER)
 It internally checks whether it can execute the dash, and if it can, a speed boost is applied. The `dashed` signal is emitted when the dash could be executed.
@@ -243,7 +243,8 @@ You can listen a variety of signals from this component that allow you to react 
 - *stopped*
 - *knockback_received(direction: Vector2, power: float)*
 - *temporary_speed_started(previous_speed: float, current_speed: float)* 
-- *temporary_speed_finished signal teleported(from: Vector2, to: Vector2)* 
+- *temporary_speed_finished 
+- *teleported(from: Vector2, to: Vector2)* 
 - *dashed(position: Vector2)* 
 - *finished_dash(initial_position: Vector2, final_position: Vector2)* 
 - *dash_free_from_cooldown(dash_position: Vector2, current_dash_queue: Array[Vector2])*
@@ -264,7 +265,7 @@ Platformer games are a convergence of numerous mechanics, making them an excelle
 
 Getting started
 This component is inherited from [GodotParadiseMotion](#godotparadisemotion) so it has the same functionality as it.
-In this illustration, we aim to comprehensively unravel the mechanics inherent in a platformer. The `GodotParadisePlatfomerMovement` simplifies these intricacies, allowing us to center our focus on the fundamental concepts of our game.
+In this illustration, we aim to comprehensively unravel the mechanics inherent in a platformer. The `GodotParadisePlatformerMovement` simplifies these intricacies, allowing us to center our focus on the fundamental concepts of our game.
 
 ⚠️This component can only be used on CharacterBody2D node
 
@@ -411,6 +412,12 @@ Modifies the `velocity.x` value and apply acceleration if it's greater than zero
 
 ### decelerate_horizontally(delta: float = get_physics_process_delta_time(), force_stop: bool = false)
 Modifies the `velocity.x` If `force_stop` is true, the `velocity.x` is set to zero abruptly. If the `friction` value is greater than zero, deceleration is applied gradually using the `FRICTION` value.
+
+### accelerate_vertically(direction: Vector2, delta: float = get_physics_process_delta_time())
+Modifies the `velocity.y` value and apply acceleration if it's greater than zero. In this function, the direction vector is normalized, and the `last_faced_direction` is set to this value if it's not a `Vector2.ZERO`.
+
+### decelerate_vertically(delta: float = get_physics_process_delta_time(), force_stop: bool = false)
+Modifies the `velocity.y` If `force_stop` is true, the `velocity.y` is set to zero abruptly. If the `air_friction_vertical_factor` value is greater than zero, deceleration is applied gradually using the `air_friction_vertical_factor` value.
 
 ### get_gravity() -> float
 Returns the current gravity force being applied, which is either `jump_gravity` or `fall_gravity`, depending on the sign of `velocity.y`, taking into account whether gravity is inverted.
