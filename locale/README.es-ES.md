@@ -339,13 +339,17 @@ La **coyote jump time window** establece la duración en la que esta funcionalid
 
 ### Wall jump
 - Wall jump enabled
-- Wall jump force
+- Wall jump height
+- Wall jump X boost
+- Wall jump Y Boost
 - Wall jump count as jump
 - Maximum permisible wall angle
 
 El **wall jump enabled** libera la posibilidad de saltar cuando el nodo colisiona con una pared.
 
-Por defecto, la **wall jump force** es igual a la altura_de_salto. Sin embargo, si desea especificar una fuerza diferente para los saltos de pared, puede definir ese valor aquí.
+La **wall jump height** es similar a la `jump_height` de los saltos normales pero esta se aplica sobre el wall jump permitidonos ajustar los parametros de forma separada respecto al salto normal.
+
+Los **wall jump boost** son la fuerza extra que se aplicará en el eje respectivo cuando se ejecute el salto de pared.
 
 El **wall jump count as jump** cuando se activa, cuenta este salto a la pila de saltos permitidos, es decir, si el nodo tiene 2 saltos permitidos, saltar a la pared y volver a saltar agotará sus intentos.
 

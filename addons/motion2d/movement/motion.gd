@@ -15,9 +15,9 @@ signal dash_restarted
 ## The maximum speed this character can reach.
 @export var MAX_SPEED: float = 85
 ## This value makes the time it takes to reach maximum speed smoother.
-@export var ACCELERATION: float = 350.0
+@export var ACCELERATION: float = 10
 ## The force applied to slow down the character's movement.
-@export var FRICTION: float = 750.0
+@export var FRICTION: float = 15
 ## Modulates the rate of horizontal speed decrease during airborne movement.
 @export_range(0.0 , 1.0, 0.001) var AIR_FRICTION_HORIZONTAL_FACTOR: float = 1.0
 ## Modulates the rate of vertical speed decrease during airborne movement.
@@ -105,7 +105,7 @@ func accelerate(direction: Vector2, delta: float =  get_physics_process_delta_ti
 		last_faced_direction = facing_direction
 		
 		if ACCELERATION > 0:
-			velocity = velocity.move_toward(direction * MAX_SPEED, ACCELERATION * delta)
+			velocity = velocity.move_toward(direction * MAX_SPEED, ACCELERATION)
 		else:	
 			velocity = direction * MAX_SPEED
 		
@@ -122,7 +122,7 @@ func decelerate(delta: float = get_physics_process_delta_time(), force_stop: boo
 	if force_stop or FRICTION == 0:
 		velocity = Vector2.ZERO
 	else:
-		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+		velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
 		
 	if stopped_signal and not previous_velocity.is_zero_approx() and velocity.is_zero_approx():
 		stopped.emit()
@@ -287,4 +287,3 @@ func on_dash_duration_timer_timeout():
 	_create_dash_cooldown_timer()
 	var last_dash = dash_queue.back() if dash_queue.size() else Vector2.ZERO
 	finished_dash.emit(last_dash, body.global_position)
-	

@@ -69,7 +69,11 @@ signal wall_climb_finished
 ## Enable the wall jump action
 @export var wall_jump_enabled : bool = false
 ## The force applied in the wall jump, this can be different as jump_height
-@export var wall_jump_force: float = jump_height
+@export var wall_jump_height: float = 30.0
+## A boost extra force in the x axis when the wall jump is executed
+@export var wall_jump_x_boost: float = 10.0
+## A boost extra force in the x axis when the wall jump is executed
+@export var wall_jump_y_boost: float = 0.0
 ## Defines whether the wall jump is counted as a jump in the overall count.
 @export var wall_jump_count_as_jump: bool = false
 ## The maximum angle of deviation that a wall can have to allow the jump to be executed.
@@ -186,9 +190,12 @@ func accelerate_horizontally(direction: Vector2, delta: float =  get_physics_pro
 		last_faced_direction = direction
 		
 		if ACCELERATION > 0:
-			velocity.x = lerp(velocity.x, direction.x * MAX_SPEED, (ACCELERATION / 100) * delta)
+			velocity.x = move_toward(velocity.x, direction.x * MAX_SPEED, ACCELERATION)
+#			velocity.x = lerp(velocity.x, direction.x * MAX_SPEED, (ACCELERATION / 100) * delta)
 		else:
 			velocity.x = direction.x * MAX_SPEED
+		
+		velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
 		
 	return self
 
@@ -197,7 +204,7 @@ func decelerate_horizontally(delta: float = get_physics_process_delta_time(), fo
 	if force_stop or FRICTION == 0:
 		velocity.x = 0
 	else:
-		velocity.x = move_toward(velocity.x, 0.0, FRICTION * delta)
+		velocity.x = move_toward(velocity.x, 0.0, FRICTION)
 
 	return self
 
@@ -209,7 +216,7 @@ func accelerate_vertically(direction: Vector2, delta: float =  get_physics_proce
 		last_faced_direction = direction
 		
 		if ACCELERATION > 0:
-			velocity.y = lerp(velocity.y, direction.y * MAX_SPEED, (ACCELERATION / 100) * delta)
+			velocity.y = lerp(velocity.y, direction.y * MAX_SPEED, ACCELERATION)
 		else:
 			velocity.y = direction.y * MAX_SPEED
 		
@@ -327,13 +334,14 @@ func shorten_jump() -> void:
 
 
 
-func wall_jump(direction: Vector2, height: float = jump_height) -> GodotParadisePlatformerMovement:
+func wall_jump(direction: Vector2, height: float = wall_jump_height) -> GodotParadisePlatformerMovement:
 	var wall_normal: Vector2 = body.get_wall_normal()
 	var left_angle: float = absf(wall_normal.angle_to(Vector2.LEFT))
 	var right_angle: float = absf(wall_normal.angle_to(Vector2.RIGHT))
 	
-	velocity.x = wall_normal.x * wall_jump_force
-	
+	velocity.x = (wall_normal.x * height) + sign(wall_normal.x) * wall_jump_x_boost
+	velocity.y += wall_jump_y_boost
+
 	if not direction.is_zero_approx():
 		velocity *= direction if direction.is_normalized() else direction.normalized()
 		
@@ -420,7 +428,8 @@ func is_withing_jump_hang_threshold() -> bool:
 func is_falling() -> bool:
 	return not body.is_on_floor() \
 		and gravity_enabled \
-		and (velocity.y < 0 if is_inverted_gravity else velocity.y > 0)
+		and (velocity.y < 0 if is_inverted_gravity else velocity.y > 0)\
+		and (coyote_timer.is_stopped() or coyote_timer.time_left == 0)
 
 
 func _add_position_to_jump_queue(position: Vector2):

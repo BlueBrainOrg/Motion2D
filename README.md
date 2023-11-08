@@ -336,13 +336,17 @@ The **coyote jump time window** set the duration this functionality is active an
 
 ### Wall jump
 - Wall jump enabled
-- Wall jump force
+- Wall jump height
+- Wall jump X boost
+- Wall jump Y Boost
 - Wall jump count as jump
 - Maximum permisible wall angle
 
 The **wall jump enabled** releases the possibility of jumping when the node collides with a wall.
 
-By default, the **wall jump force** is equal to the jump_height. However, if you wish to specify a different force for wall jumps, you can define that value here.
+The **wall jump height** is the similar to jump height for normal jumps but this one applies on wall allowing us modulate the wall jump completely separated from the normal jump
+
+The **wall jump boost** are the extra force that will be applied on the respective axis when the wall jump is executed.
 
 The **wall jump count as jump** when activated, counts this jump to the stack of allowed jumps, i.e. if the node has 2 allowed jumps, jumping to the wall and jumping again will exhaust its attempts.
 
@@ -467,8 +471,8 @@ if Input.is_action_just_released("jump"):
 	godot_platformer_movement.shorten_jump()
 ```
 
-### wall_jump(direction: Vector2, height: float = jump_height)
-This is a preliminary step before calling the `jump()` function, where a direction for the character's jump is specified. By default, wall_normal is used as the direction. if `wall_jump_count_as_jump` variable is set to true, this jump is also added to the `jump_queue`
+### wall_jump(direction: Vector2, height: float = wall_jump_height)
+This is a preliminary step before calling the `jump()` function, where a direction for the character's jump is specified. By default, `wall_normal` is used as the direction. if `wall_jump_count_as_jump` variable is set to true, this jump is also added to the `jump_queue`
 
 ### can_wall_slide() -> bool
 Returns whether, with the current component values, the character can perform a wall slide. It essentially checks if the character is in contact with a wall and `wall_slide_enabled` is set to true.
